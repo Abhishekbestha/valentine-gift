@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💕</title>
+    <meta name="description" content="A special Valentine's Day message just for you">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Music Toggle -->
+    <button class="music-toggle" id="musicToggle" title="Toggle Music">
+        <span class="music-icon">🎵</span>
+    </button>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Question Section -->
+        <section class="question-section" id="questionSection">
+            <div class="card glass-card">
+                <div class="heart-decoration">💕</div>
+                <h1 class="main-title">Will You Be My Valentine?</h1>
+                <p class="subtitle">I've been meaning to ask you something special...</p>
+                <div class="buttons-container">
+                    <button class="btn btn-yes" id="yesBtn">
+                        <span class="btn-icon">💖</span>
+                        Yes!
+                    </button>
+                    <button class="btn btn-no" id="noBtn">
+                        <span class="btn-icon">💔</span>
+                        No
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Greeting Section -->
+        <section class="greeting-section hidden" id="greetingSection">
+            <div class="card glass-card greeting-card">
+                <div class="celebration-hearts">
+                    <span>💖</span><span>💕</span><span>💗</span><span>💓</span><span>💖</span>
+                </div>
+                <h1 class="greeting-title">Yay! You Made My Day!</h1>
+                <p class="greeting-message">
+                    Every moment with you is a treasure. You are the reason my heart beats with joy.
+                    Thank you for being my Valentine! 💝
+                </p>
+                <div class="love-quote">
+                    <p>"In all the world, there is no heart for me like yours. In all the world, there is no love for
+                        you like mine."</p>
+                    <span class="quote-author">— Maya Angelou</span>
+                </div>
+                <button class="btn btn-surprise" id="surpriseBtn">
+                    <span class="btn-icon">🎁</span>
+                    Open Your Surprise Gift
+                </button>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="gallery-section hidden" id="gallerySection">
+            <div class="gallery-header">
+                <h2 class="gallery-title">💕 Our Love Story in Moments 💕</h2>
+                <p class="gallery-subtitle">Each image holds a piece of my heart for you</p>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Gallery items with romantic images -->
+                <div class="gallery-item">
+                    <div class="gallery-image" id="img1">
+                        <img src="images/couple_beach_sunset.png" alt="Couple walking on beach at sunset">
+                    </div>
+                    <div class="gallery-message">
+                        <p>"Together is my favorite place to be."</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image" id="img2">
+                        <img src="images/rose_heart.png" alt="Heart made of roses">
+                    </div>
+                    <div class="gallery-message">
+                        <p>"You are the rose in my garden of life."</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image" id="img3">
+                        <img src="images/romantic_sunset.png" alt="Romantic sunset with heart clouds">
+                    </div>
+                    <div class="gallery-message">
+                        <p>"Every sunset reminds me of our love's endless beauty."</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image" id="img4">
+                        <img src="images/love_letter.png" alt="Vintage love letter with roses">
+                    </div>
+                    <div class="gallery-message">
+                        <p>"My heart writes love letters only you can read."</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image" id="img5">
+                        <img src="images/hands_heart.png" alt="Hands forming heart shape">
+                    </div>
+                    <div class="gallery-message">
+                        <p>"Forever isn't long enough when I'm with you."</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-image" id="img6">
+                        <img src="images/magical_hearts.png" alt="Magical hearts and stars">
+                    </div>
+                    <div class="gallery-message">
+                        <p>"You make ordinary moments feel magical."</p>
+                    </div>
+                </div>
+            </div>
+            <div class="final-message">
+                <p class="final-text">💝 Happy Valentine's Day, My Love! 💝</p>
+                <p class="final-subtext">Thank you for being the most beautiful part of my life.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
