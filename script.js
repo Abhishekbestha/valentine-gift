@@ -42,9 +42,22 @@ function createHeart(hearts, index) {
 function initializeNoButtonDodge() {
     const container = document.querySelector('.buttons-container');
 
-    // Desktop: Mouse hover
-    noBtn.addEventListener('mouseenter', (e) => {
-        dodgeButton(e);
+    // Desktop: Mouse movement
+    document.addEventListener('mousemove', (e) => {
+        const btn = noBtn;
+        const rect = btn.getBoundingClientRect();
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+
+        // Check if mouse is getting close (within 100px)
+        const distance = Math.sqrt(
+            Math.pow((mouseX - (rect.left + rect.width / 2)), 2) +
+            Math.pow((mouseY - (rect.top + rect.height / 2)), 2)
+        );
+
+        if (distance < 100) {
+            dodgeButton();
+        }
     });
 
     // Mobile: Touch
@@ -54,43 +67,81 @@ function initializeNoButtonDodge() {
     }, { passive: false });
 }
 
-function dodgeButton(e) {
+function dodgeButton() {
     const btn = noBtn;
-    const container = document.querySelector('.glass-card');
-    const containerRect = container.getBoundingClientRect();
-    const btnRect = btn.getBoundingClientRect();
 
-    // Calculate new random position within container bounds
-    const maxX = containerRect.width - btnRect.width - 40;
-    const maxY = containerRect.height - btnRect.height - 40;
-
-    let newX = Math.random() * maxX;
-    let newY = Math.random() * maxY;
-
-    // Make sure it moves away from current position
-    const currentX = btn.offsetLeft;
-    const currentY = btn.offsetTop;
-
-    // If new position is too close to current, flip to other side
-    if (Math.abs(newX - currentX) < 100) {
-        newX = currentX > maxX / 2 ? Math.random() * (maxX / 2) : (maxX / 2) + Math.random() * (maxX / 2);
+    // Move button to body if it's not already there to avoid container constraints
+    // (backdrop-filter on card creates a new containing block that messes up fixed positioning)
+    if (btn.parentNode !== document.body) {
+        const rect = btn.getBoundingClientRect();
+        document.body.appendChild(btn);
+        btn.style.position = 'fixed';
+        btn.style.left = `${rect.left}px`;
+        btn.style.top = `${rect.top}px`;
     }
 
-    // Apply styling for absolute positioning
-    btn.style.position = 'absolute';
-    btn.style.left = `${Math.max(20, Math.min(newX, maxX))}px`;
-    btn.style.top = `${Math.max(20, Math.min(newY, maxY))}px`;
-    btn.style.transition = 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+    // Get viewport dimensions to ensure button stays on screen
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const btnRect = btn.getBoundingClientRect();
 
-    // Add playful scale effect
-    btn.style.transform = 'scale(0.9)';
+    // Padding from edges
+    const padding = 20;
+
+    // Calculate safe area (ensure button stays fully visible)
+    const maxX = viewportWidth - btnRect.width - padding;
+    const maxY = viewportHeight - btnRect.height - padding;
+    const minX = padding;
+    const minY = padding;
+
+    // Current position
+    let currentX = btn.getBoundingClientRect().left;
+    let currentY = btn.getBoundingClientRect().top;
+
+    // Calculate new random position
+    let newX = Math.random() * (maxX - minX) + minX;
+    let newY = Math.random() * (maxY - minY) + minY;
+
+    // Ensure new position is far enough from current position
+    // If too close, force it to the other side/quadrant
+    if (Math.abs(newX - currentX) < 200 && Math.abs(newY - currentY) < 200) {
+        if (currentX < viewportWidth / 2) {
+            newX += viewportWidth / 2;
+        } else {
+            newX -= viewportWidth / 2;
+        }
+
+        if (currentY < viewportHeight / 2) {
+            newY += viewportHeight / 2;
+        } else {
+            newY -= viewportHeight / 2;
+        }
+
+        // Final clamp check
+        newX = Math.max(minX, Math.min(newX, maxX));
+        newY = Math.max(minY, Math.min(newY, maxY));
+    }
+
+    // Apply fixed positioning to break out of container flow if needed
+    // But using fixed makes coordinate calculation easier relative to viewport
+    btn.style.position = 'fixed';
+    btn.style.left = `${newX}px`;
+    btn.style.top = `${newY}px`;
+
+    // Faster transition for snappier feel
+    btn.style.transition = 'all 0.2s cubic-bezier(0.1, 0.7, 1.0, 0.1)';
+
+    // Add playful tilt
+    const rotation = (Math.random() - 0.5) * 30;
+    btn.style.transform = `scale(0.9) rotate(${rotation}deg)`;
+
     setTimeout(() => {
-        btn.style.transform = 'scale(1)';
-    }, 150);
+        btn.style.transform = `scale(1) rotate(0deg)`;
+    }, 200);
 
     // Change button text occasionally
     const messages = ['Nope!', 'Try again!', 'Not here!', 'Catch me!', 'Hehe!', 'No way!', '😜', 'Almost!'];
-    if (Math.random() > 0.5) {
+    if (Math.random() > 0.6) {
         btn.innerHTML = `<span class="btn-icon">💔</span> ${messages[Math.floor(Math.random() * messages.length)]}`;
     }
 }
@@ -110,6 +161,9 @@ function initializeEventListeners() {
 function handleYesClick() {
     // Create celebration effect
     createCelebrationHearts();
+
+    // Hide No button immediately
+    noBtn.style.display = 'none';
 
     // Hide question section with fade out
     questionSection.style.opacity = '0';
